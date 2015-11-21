@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title>LPH management</title>
+
+        <link rel="stylesheet" href="main.css" />
+
+        <script src="node_modules/angular/angular.min.js"></script>
+        <script src="main.js"></script>
+    </head>
+    <body ng-app="lph">
+        <h1>LPH management</h1>
+
+        <p>Click a header to continue.</p>
+
+        <main>
+            <h2 ng-click="currentTab = 'listLandingPages'">Manage landing pages</h2>
+
+            <section ng-if="currentTab === 'listLandingPages'" ng-controller="ListLandingPagesController">
+                <p ng-if="count === 0">No landing pages exist. Create one to get started.</p>
+
+                <table ng-if="count > 0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Job number</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="landingPage in landingPages">
+                            <td>{{ landingPage.name }}</td>
+                            <td>{{ landingPage.jobNumber }}</td>
+                            <td>{{ landingPage.createdAt }}</td>
+                            <td>
+                                <p>
+                                    <b>Prod</b><br />
+                                    View live<br />
+                                    View results<br />
+                                    Deploy prod branch<br />
+                                    View activity log<br />
+                                </p>
+
+                                <p>
+                                    <b>Staging</b><br />
+                                    View live<br />
+                                    View results<br />
+                                    Deploy staging branch<br />
+                                    View activity log<br />
+                                </p>
+
+                                <p>
+                                    <b>Manage</b><br />
+                                    Edit<br />
+                                    <a ng-click="delete(landingPage)">Delete</a><br />
+                                    View audit log<br />
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <h2 ng-click="currentTab = 'createLandingPage'">Create landing page</h2>
+
+            <section ng-if="currentTab === 'createLandingPage'" ng-controller="CreateLandingPageController">
+                <form ng-submit="create(newLandingPage)">
+                    <p>
+                        Landing page name:
+                        <br />
+                        <input ng-model="newLandingPage.name" />
+                    </p>
+
+                    <p>
+                        Job number:
+                        <br />
+                        <input ng-model="newLandingPage.jobNumber" />
+                    </p>
+
+                    <p>
+                        Git URI:
+                        <br />
+                        <input ng-model="newLandingPage.gitUri" />
+                    </p>
+
+                    <p>
+                        <input type="submit" value="Create landing page" />
+                    </p>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

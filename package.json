@@ -1,0 +1,8 @@
+{
+  "name": "lph-management",
+  "version": "0.0.1",
+  "author": "Amy Boyd <amy@amyboyd.co.uk>",
+  "dependencies": {
+    "angular": "~1.4.7"
+  }
+}
