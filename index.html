@@ -88,6 +88,65 @@
                     </p>
                 </form>
             </section>
+
+            <h2 ng-click="currentTab = 'listDevelopers'">Manage developers</h2>
+
+            <section ng-if="currentTab === 'listDevelopers'" ng-controller="ListDevelopersController">
+                <p ng-if="count === 0">No developers exist. Create one to get started.</p>
+
+                <table ng-if="count > 0">
+                    <thead>
+                        <tr>
+                            <th>Real name</th>
+                            <th>GitHub username</th>
+                            <th>Email</th>
+                            <th>Created at</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="developer in developers">
+                            <td>{{ developer.realName }}</td>
+                            <td>{{ developer.githubUsername }}</td>
+                            <td>{{ developer.email }}</td>
+                            <td>{{ developer.createdAt }}</td>
+                            <td>
+                                <p>
+                                    <a ng-click="delete(developer)">Delete</a>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <h2 ng-click="currentTab = 'createDeveloper'">Create developer</h2>
+
+            <section ng-if="currentTab === 'createDeveloper'" ng-controller="CreateDeveloperController">
+                <form ng-submit="create(newDeveloper)">
+                    <p>
+                        Real name:
+                        <br />
+                        <input ng-model="newDeveloper.realName" />
+                    </p>
+
+                    <p>
+                        GitHub username:
+                        <br />
+                        <input ng-model="newDeveloper.githubUsername" />
+                    </p>
+
+                    <p>
+                        Email:
+                        <br />
+                        <input ng-model="newDeveloper.email" />
+                    </p>
+
+                    <p>
+                        <input type="submit" value="Create developer" />
+                    </p>
+                </form>
+            </section>
         </main>
     </body>
 </html>
