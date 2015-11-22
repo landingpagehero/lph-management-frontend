@@ -31,6 +31,10 @@ app.controller('ListLandingPagesController', function($scope, $http, $rootScope)
     };
 
     $scope.delete = function(landingPage) {
+        if (!window.confirm('Are you sure you want to delete ' + landingPage.name + '?')) {
+            return;
+        }
+
         $http.delete(API_BASE + '/management/landing-pages/' + landingPage.id)
             .then(function(deleteResponse) {
                 loadLandingPages();
@@ -102,6 +106,10 @@ app.controller('ListDevelopersController', function($scope, $http) {
     loadDevelopers();
 
     $scope.delete = function(developer) {
+        if (!window.confirm('Are you sure you want to delete ' + developer.realName + '?')) {
+            return;
+        }
+
         $http.delete(API_BASE + '/management/developers/' + developer.id)
             .then(function(deleteResponse) {
                 loadDevelopers();
