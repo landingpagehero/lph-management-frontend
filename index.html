@@ -10,12 +10,19 @@
     <body ng-app="lph">
         <h1>LPH management</h1>
 
-        <p>Click a header to continue.</p>
+        <navigation>
+            <ul>
+                <li ng-click="currentTab = 'listLandingPages'">Manage landing pages</li>
+                <li ng-click="currentTab = 'createLandingPage'">Create landing page</li>
+                <li ng-click="currentTab = 'listDevelopers'">Manage developers</li>
+                <li ng-click="currentTab = 'createDeveloper'">Create developer</li>
+            </ul>
+        </navigation>
 
         <main>
-            <h2 ng-click="currentTab = 'listLandingPages'">Manage landing pages</h2>
-
             <section ng-if="currentTab === 'listLandingPages'" ng-controller="ListLandingPagesController">
+                <h2>Landing pages</h2>
+
                 <p ng-if="count === 0">No landing pages exist. Create one to get started.</p>
 
                 <table ng-if="count > 0">
@@ -51,9 +58,9 @@
 
                                 <p>
                                     <b>Manage</b><br />
-                                    Edit<br />
+                                    <a ng-click="edit(landingPage)">Edit</a><br />
                                     <a ng-click="delete(landingPage)">Delete</a><br />
-                                    View audit log<br />
+                                    <a ng-click="viewAuditLog(landingPage)">View audit log</a><br />
                                 </p>
                             </td>
                         </tr>
@@ -61,9 +68,9 @@
                 </table>
             </section>
 
-            <h2 ng-click="currentTab = 'createLandingPage'">Create landing page</h2>
-
             <section ng-if="currentTab === 'createLandingPage'" ng-controller="CreateLandingPageController">
+                <h2>Create landing page</h2>
+
                 <form ng-submit="create(newLandingPage)">
                     <p>
                         Landing page name:
@@ -89,9 +96,58 @@
                 </form>
             </section>
 
-            <h2 ng-click="currentTab = 'listDevelopers'">Manage developers</h2>
+            <section ng-if="currentTab === 'editLandingPage'" ng-controller="EditLandingPageController">
+                <h2>Edit landing page: {{ landingPage.name }}</h2>
+
+                <form ng-submit="save(landingPage)">
+                    <p>
+                        Landing page name:
+                        <br />
+                        <input ng-model="landingPage.name" readonly disabled />
+                    </p>
+
+                    <p>
+                        Job number:
+                        <br />
+                        <input ng-model="landingPage.jobNumber" readonly disabled />
+                    </p>
+
+                    <p>
+                        Git URI:
+                        <br />
+                        <input ng-model="landingPage.gitUri" readonly disabled />
+                    </p>
+
+                    <p>
+                        <input type="submit" value="Save changes" />
+                    </p>
+                </form>
+            </section>
+
+            <section ng-if="currentTab === 'viewLandingPageAuditLog'" ng-controller="ViewLandingPageAuditLogController">
+                <h2>Landing page audit log: {{ landingPage.name }}</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event type</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="event in auditLog">
+                            <td>{{ event.eventType }}</td>
+                            <td>{{ event.message }}</td>
+                            <td>{{ event.createdAt }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
 
             <section ng-if="currentTab === 'listDevelopers'" ng-controller="ListDevelopersController">
+                <h2>Developers</h2>
+
                 <p ng-if="count === 0">No developers exist. Create one to get started.</p>
 
                 <table ng-if="count > 0">
@@ -120,9 +176,9 @@
                 </table>
             </section>
 
-            <h2 ng-click="currentTab = 'createDeveloper'">Create developer</h2>
-
             <section ng-if="currentTab === 'createDeveloper'" ng-controller="CreateDeveloperController">
+                <h2>Create developer</h2>
+
                 <form ng-submit="create(newDeveloper)">
                     <p>
                         Real name:

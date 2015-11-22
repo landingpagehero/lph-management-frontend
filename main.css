@@ -9,6 +9,7 @@ body {
 
 h1 {
     margin-bottom: 1em;
+    text-align: center;
 }
 
 h2 {
@@ -32,4 +33,16 @@ a[ng-click], a[href] {
     color: blue;
     text-decoration: none;
     cursor: pointer;
+}
+
+navigation ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+navigation ul li {
+    list-style-type: none;
+    padding: 0 20px;
 }

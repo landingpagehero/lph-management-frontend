@@ -13,7 +13,7 @@ app.controller('CreateLandingPageController', function($scope, $rootScope, $http
     };
 });
 
-app.controller('ListLandingPagesController', function($scope, $http) {
+app.controller('ListLandingPagesController', function($scope, $http, $rootScope) {
     function loadLandingPages() {
         $http.get(API_BASE + '/management/landing-pages')
             .then(function(response) {
@@ -25,6 +25,11 @@ app.controller('ListLandingPagesController', function($scope, $http) {
 
     loadLandingPages();
 
+    $scope.edit = function(landingPage) {
+        $rootScope.currentTab = 'editLandingPage';
+        $rootScope.currentLandingPageId = landingPage.id;
+    };
+
     $scope.delete = function(landingPage) {
         $http.delete(API_BASE + '/management/landing-pages/' + landingPage.id)
             .then(function(deleteResponse) {
@@ -33,6 +38,44 @@ app.controller('ListLandingPagesController', function($scope, $http) {
             })
             .catch(response => alert('Error! Could not delete landing page.'));
     };
+
+    $scope.viewAuditLog = function(landingPage) {
+        $rootScope.currentTab = 'viewLandingPageAuditLog';
+        $rootScope.currentLandingPageId = landingPage.id;
+    };
+});
+
+app.controller('EditLandingPageController', function($scope, $http, $rootScope) {
+    function loadLandingPage() {
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId)
+            .then(function(response) {
+                $scope.landingPage = response.data.landingPage;
+            })
+            .catch(response => alert('Error! Could not load landing page.'));
+    }
+
+    loadLandingPage();
+
+    $scope.save = function(landingPage) {
+    };
+});
+
+app.controller('ViewLandingPageAuditLogController', function($scope, $http, $rootScope) {
+    function load() {
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId)
+            .then(function(response) {
+                $scope.landingPage = response.data.landingPage;
+            })
+            .catch(response => alert('Error! Could not load landing page.'));
+
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/audit-log')
+            .then(function(response) {
+                $scope.auditLog = response.data.auditLog;
+            })
+            .catch(response => alert('Error! Could not load landing page audit log.'));
+    }
+
+    load();
 });
 
 app.controller('CreateDeveloperController', function($scope, $rootScope, $http) {
