@@ -47,6 +47,11 @@ app.controller('ListLandingPagesController', function($scope, $http, $rootScope)
         $rootScope.currentTab = 'viewLandingPageAuditLog';
         $rootScope.currentLandingPageId = landingPage.id;
     };
+
+    $scope.viewCodeChangesLog = function(landingPage) {
+        $rootScope.currentTab = 'viewLandingPageCodeChangesLog';
+        $rootScope.currentLandingPageId = landingPage.id;
+    };
 });
 
 app.controller('EditLandingPageController', function($scope, $http, $rootScope) {
@@ -80,6 +85,18 @@ app.controller('ViewLandingPageAuditLogController', function($scope, $http, $roo
     }
 
     load();
+});
+
+app.controller('ViewLandingPageCodeChangesLogController', function($scope, $http, $rootScope) {
+    $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId)
+        .then(response => $scope.landingPage = response.data.landingPage)
+        .catch(response => alert('Error! Could not load landing page.'));
+
+    $scope.getChanges = function(branch) {
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/code-changes-log/' + $scope.branch)
+            .then(response => $scope.codeChanges = response.data.codeChanges)
+            .catch(response => alert('Error! Could not load landing page code changes.'));
+    };
 });
 
 app.controller('CreateDeveloperController', function($scope, $rootScope, $http) {

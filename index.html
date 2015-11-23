@@ -61,6 +61,7 @@
                                     <a ng-click="edit(landingPage)">Edit</a><br />
                                     <a ng-click="delete(landingPage)">Delete</a><br />
                                     <a ng-click="viewAuditLog(landingPage)">View audit log</a><br />
+                                    <a ng-click="viewCodeChangesLog(landingPage)">View code changes</a><br />
                                 </p>
                             </td>
                         </tr>
@@ -143,6 +144,18 @@
                         </tr>
                     </tbody>
                 </table>
+            </section>
+
+            <section ng-if="currentTab === 'viewLandingPageCodeChangesLog'" ng-controller="ViewLandingPageCodeChangesLogController">
+                <h2>Landing page code changes: {{ landingPage.name }}</h2>
+
+                <p>
+                    Branch:
+                    <input ng-model="branch" placeholder="e.g. master" />
+                    <button ng-click="getChanges(branch)">List changes</button>
+                </p>
+
+                <pre ng-if="codeChanges">{{ codeChanges }}</pre>
             </section>
 
             <section ng-if="currentTab === 'listDevelopers'" ng-controller="ListDevelopersController">
