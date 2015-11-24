@@ -42,7 +42,7 @@
                             <td>
                                 <p>
                                     <b>Prod</b><br />
-                                    View live<br />
+                                    <a ng-href="{{ landingPage.prodUrl }}" target="_blank">View live</a><br />
                                     View results<br />
                                     <a ng-click="deploy(landingPage, 'prod')">Deploy to prod</a><br />
                                     View activity log<br />
@@ -50,7 +50,7 @@
 
                                 <p>
                                     <b>Staging</b><br />
-                                    View live<br />
+                                    <a ng-href="{{ landingPage.stagingUrl }}" target="_blank">View live</a><br />
                                     View results<br />
                                     <a ng-click="deploy(landingPage, 'staging')">Deploy to staging</a><br />
                                     View activity log<br />
