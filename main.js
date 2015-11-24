@@ -52,6 +52,18 @@ app.controller('ListLandingPagesController', function($scope, $http, $rootScope)
         $rootScope.currentTab = 'viewLandingPageCodeChangesLog';
         $rootScope.currentLandingPageId = landingPage.id;
     };
+
+    $scope.deploy = function(landingPage, environment) {
+        const branch = window.prompt('What branch do you want to deploy?');
+        if (!branch) {
+            alert('Error! No branch entered.')
+            return;
+        }
+
+        $http.post(API_BASE + '/management/landing-pages/' + landingPage.id + '/deploy/' + environment + '/' + branch)
+            .then(response => alert(`Deployed ${landingPage.name} to ${response.data.url}`))
+            .catch(response => alert('Error! Could not deploy landing page.'));
+    };
 });
 
 app.controller('EditLandingPageController', function($scope, $http, $rootScope) {
