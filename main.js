@@ -70,6 +70,12 @@ app.controller('ListLandingPagesController', function($scope, $http, $rootScope)
         $rootScope.currentEnvironment = environment;
         $rootScope.currentLandingPageId = landingPage.id;
     };
+
+    $scope.viewFormSubmissions = function(landingPage, environment) {
+        $rootScope.currentTab = 'viewLandingPageFormSubmissions';
+        $rootScope.currentEnvironment = environment;
+        $rootScope.currentLandingPageId = landingPage.id;
+    };
 });
 
 app.controller('EditLandingPageController', function($scope, $http, $rootScope) {
@@ -131,6 +137,20 @@ app.controller('ViewLandingPageUserEventsController', function($scope, $http, $r
 
 });
 
+app.controller('ViewLandingPageFormSubmissionsController', function($scope, $http, $rootScope) {
+    function loadFormSubmissions() {
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/form-submissions/' + $rootScope.currentEnvironment)
+            .then(response => $scope.submissions = response.data.submissions)
+            .catch(response => alert('Error! Could not get landing page form submissions.'));
+    }
+
+    $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId)
+        .then(response => $scope.landingPage = response.data.landingPage)
+        .then(loadFormSubmissions)
+        .catch(response => alert('Error! Could not load landing page.'));
+
+});
+
 app.controller('CreateDeveloperController', function($scope, $rootScope, $http) {
     $scope.create = function(newDeveloper) {
         $http.put(API_BASE + '/management/developers', newDeveloper)
@@ -165,5 +185,11 @@ app.controller('ListDevelopersController', function($scope, $http) {
                 alert('Deleted ' + developer.realName);
             })
             .catch(response => alert('Error! Could not delete developer.'));
+    };
+});
+
+app.filter('join', function () {
+    return function (input, delimiter) {
+        return input.join(delimiter);
     };
 });

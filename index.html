@@ -43,7 +43,7 @@
                                 <p>
                                     <b>Prod</b><br />
                                     <a ng-href="{{ landingPage.prodUrl }}" target="_blank">View live</a><br />
-                                    View results<br />
+                                    <a ng-click="viewFormSubmissions(landingPage, 'prod')">View form submissions</a><br />
                                     <a ng-click="deploy(landingPage, 'prod')">Deploy to prod</a><br />
                                     <a ng-click="viewUserEvents(landingPage, 'prod')">View user events</a><br />
                                 </p>
@@ -51,7 +51,7 @@
                                 <p>
                                     <b>Staging</b><br />
                                     <a ng-href="{{ landingPage.stagingUrl }}" target="_blank">View live</a><br />
-                                    View results<br />
+                                    <a ng-click="viewFormSubmissions(landingPage, 'staging')">View form submissions<br />
                                     <a ng-click="deploy(landingPage, 'staging')">Deploy to staging</a><br />
                                     <a ng-click="viewUserEvents(landingPage, 'staging')">View user events</a><br />
                                 </p>
@@ -165,6 +165,23 @@
 
                 <ul>
                     <li ng-repeat="event in events">{{ event.eventType }}, by {{ event.ipAddress }} at {{ event.createdAt }}</li>
+                </ul>
+            </section>
+
+            <section ng-if="currentTab === 'viewLandingPageFormSubmissions'" ng-controller="ViewLandingPageFormSubmissionsController">
+                <h2>Landing page form submissions: {{ landingPage.name }} on {{ currentEnvironment }}</h2>
+
+                <p>{{ submissions.length }} submissions.</p>
+
+                <ul>
+                    <li ng-repeat="submission in submissions">
+                        Submitted at {{ submission.createdAt }}:
+                        <br />
+                        <div ng-repeat="(key, values) in submission.submittedData">
+                            {{ key }}: {{ values | join:', ' }}
+                        </div>
+                        <br />
+                    </li>
                 </ul>
             </section>
 
