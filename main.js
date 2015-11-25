@@ -64,6 +64,12 @@ app.controller('ListLandingPagesController', function($scope, $http, $rootScope)
             .then(response => alert(`Deployed ${landingPage.name} to ${response.data.url}`))
             .catch(response => alert('Error! Could not deploy landing page.'));
     };
+
+    $scope.viewUserEvents = function(landingPage, environment) {
+        $rootScope.currentTab = 'viewLandingPageUserEvents';
+        $rootScope.currentEnvironment = environment;
+        $rootScope.currentLandingPageId = landingPage.id;
+    };
 });
 
 app.controller('EditLandingPageController', function($scope, $http, $rootScope) {
@@ -109,6 +115,20 @@ app.controller('ViewLandingPageCodeChangesLogController', function($scope, $http
             .then(response => $scope.codeChanges = response.data.codeChanges)
             .catch(response => alert('Error! Could not load landing page code changes.'));
     };
+});
+
+app.controller('ViewLandingPageUserEventsController', function($scope, $http, $rootScope) {
+    function loadEvents() {
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/user-events/' + $rootScope.currentEnvironment)
+            .then(response => $scope.events = response.data.events)
+            .catch(response => alert('Error! Could not get landing page user events.'));
+    }
+
+    $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId)
+        .then(response => $scope.landingPage = response.data.landingPage)
+        .then(loadEvents)
+        .catch(response => alert('Error! Could not load landing page.'));
+
 });
 
 app.controller('CreateDeveloperController', function($scope, $rootScope, $http) {

@@ -45,7 +45,7 @@
                                     <a ng-href="{{ landingPage.prodUrl }}" target="_blank">View live</a><br />
                                     View results<br />
                                     <a ng-click="deploy(landingPage, 'prod')">Deploy to prod</a><br />
-                                    View activity log<br />
+                                    <a ng-click="viewUserEvents(landingPage, 'prod')">View user events</a><br />
                                 </p>
 
                                 <p>
@@ -53,7 +53,7 @@
                                     <a ng-href="{{ landingPage.stagingUrl }}" target="_blank">View live</a><br />
                                     View results<br />
                                     <a ng-click="deploy(landingPage, 'staging')">Deploy to staging</a><br />
-                                    View activity log<br />
+                                    <a ng-click="viewUserEvents(landingPage, 'staging')">View user events</a><br />
                                 </p>
 
                                 <p>
@@ -156,6 +156,16 @@
                 </p>
 
                 <pre ng-if="codeChanges">{{ codeChanges }}</pre>
+            </section>
+
+            <section ng-if="currentTab === 'viewLandingPageUserEvents'" ng-controller="ViewLandingPageUserEventsController">
+                <h2>Landing page user events: {{ landingPage.name }} on {{ currentEnvironment }}</h2>
+
+                <p>{{ events.length }} events.</p>
+
+                <ul>
+                    <li ng-repeat="event in events">{{ event.eventType }}, by {{ event.ipAddress }} at {{ event.createdAt }}</li>
+                </ul>
             </section>
 
             <section ng-if="currentTab === 'listDevelopers'" ng-controller="ListDevelopersController">
