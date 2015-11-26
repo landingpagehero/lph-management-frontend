@@ -1,3 +1,5 @@
+'use strict';
+
 const API_BASE = window.location.protocol + '//api.' + window.location.hostname;
 
 const app = angular.module('lph', []);
@@ -90,6 +92,9 @@ app.controller('EditLandingPageController', function($scope, $http, $rootScope) 
     loadLandingPage();
 
     $scope.save = function(landingPage) {
+        $http.post(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId, $scope.landingPage)
+            .then(response => alert('Edited landing page.'))
+            .catch(response => alert('Error! Could not edit landing page.'));
     };
 });
 
@@ -191,5 +196,21 @@ app.controller('ListDevelopersController', function($scope, $http) {
 app.filter('join', function () {
     return function (input, delimiter) {
         return input.join(delimiter);
+    };
+});
+
+app.filter('formatAsParagraph', function ($sce) {
+    return function (input) {
+        let html;
+        if (input === null || input === undefined) {
+            html = "";
+        } else {
+            html = input.replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/\n/g, '<br />')
+                        ;
+        }
+
+        return $sce.trustAsHtml(html);
     };
 });

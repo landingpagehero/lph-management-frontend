@@ -30,6 +30,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Job number</th>
+                            <th>Description</th>
                             <th>Created</th>
                             <th>Actions</th>
                         </tr>
@@ -38,6 +39,7 @@
                         <tr ng-repeat="landingPage in landingPages">
                             <td>{{ landingPage.name }}</td>
                             <td>{{ landingPage.jobNumber }}</td>
+                            <td ng-bind-html="landingPage.description | formatAsParagraph"></td>
                             <td>{{ landingPage.createdAt }}</td>
                             <td>
                                 <p>
@@ -117,6 +119,12 @@
                         Git URI:
                         <br />
                         <input ng-model="landingPage.gitUri" readonly disabled />
+                    </p>
+
+                    <p>
+                        Description:
+                        <br />
+                        <textarea ng-model="landingPage.description"></textarea>
                     </p>
 
                     <p>
