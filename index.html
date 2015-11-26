@@ -33,6 +33,7 @@
                             <th>Description</th>
                             <th>Created</th>
                             <th>Actions</th>
+                            <th>Screenshot</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,6 +66,9 @@
                                     <a ng-click="viewAuditLog(landingPage)">View audit log</a><br />
                                     <a ng-click="viewCodeChangesLog(landingPage)">View code changes</a><br />
                                 </p>
+                            </td>
+                            <td>
+                                <img ng-if="landingPage.screenshot" ng-src="{{ landingPage.screenshot }}" width="400" />
                             </td>
                         </tr>
                     </tbody>

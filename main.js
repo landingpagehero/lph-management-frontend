@@ -1,7 +1,7 @@
 'use strict';
 
 const API_BASE = window.location.protocol + '//api.' + window.location.hostname;
-
+const IS_DEV = window.location.hostname === 'lph.dev';
 const app = angular.module('lph', []);
 
 app.controller('CreateLandingPageController', function($scope, $rootScope, $http) {
@@ -21,6 +21,13 @@ app.controller('ListLandingPagesController', function($scope, $http, $rootScope)
             .then(function(response) {
                 $scope.count = response.data.count;
                 $scope.landingPages = response.data.landingPages;
+
+                if (!IS_DEV) {
+                    $scope.landingPages.forEach(function(landingPage) {
+                        $http.get('http://api.fileapi.net/v1/screenshot?key=lph&url=' + window.encodeURI(landingPage.stagingUrl))
+                            .then(response => landingPage.screenshot = response.data.result.screenshot);
+                    });
+                }
             })
             .catch(response => alert('Error! Could not load landing pages.'));
     }
