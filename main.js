@@ -142,11 +142,17 @@ app.controller('ViewLandingPageUserEventsController', function($scope, $http, $r
 
 });
 
-app.controller('ViewLandingPageFormSubmissionsController', function($scope, $http, $rootScope) {
+app.controller('ViewLandingPageFormSubmissionsController', function($scope, $http, $rootScope, $window) {
     function loadFormSubmissions() {
         $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/form-submissions/' + $rootScope.currentEnvironment)
             .then(response => $scope.submissions = response.data.submissions)
             .catch(response => alert('Error! Could not get landing page form submissions.'));
+    }
+
+    $scope.downloadAsCsv = function() {
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/form-submissions/' + $rootScope.currentEnvironment + '.csv')
+            .then(response => $window.location.href = response.data.downloadUrl)
+            .catch(response => alert('Error! Could not download as a CSV.'));
     }
 
     $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId)

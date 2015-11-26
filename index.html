@@ -181,6 +181,8 @@
 
                 <p>{{ submissions.length }} submissions.</p>
 
+                <p ng-if="submissions.length > 0"><a ng-click="downloadAsCsv()">Download as CSV</a></p>
+
                 <ul>
                     <li ng-repeat="submission in submissions">
                         Submitted at {{ submission.createdAt }}:
