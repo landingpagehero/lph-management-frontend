@@ -1,0 +1,51 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+}
+
+h1, h2, h3 {
+    font-family: 'Righteous', cursive;
+    font-size: 26px;
+    line-height: 30px;
+    margin-bottom: 1em;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+td, th {
+    text-align: left;
+    vertical-align: top;
+}
+
+a[ng-click], a[href] {
+    color: blue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.splitter {
+    color: #9cafda;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 10px;
+}

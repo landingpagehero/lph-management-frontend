@@ -1,23 +1,26 @@
 <html>
     <head>
-        <title>LPH management</title>
+        <title>Landing Page Hero Manager</title>
 
-        <link rel="stylesheet" href="main.css" />
+        <link type="text/css" rel="stylesheet" href="assets/styles/app.css" />
 
         <script src="node_modules/angular/angular.min.js"></script>
-        <script src="main.js"></script>
+        <script src="assets/lib/app.js"></script>
     </head>
-    <body ng-app="lph">
-        <h1>LPH management</h1>
 
-        <navigation>
-            <ul>
-                <li ng-click="currentTab = 'listLandingPages'">Manage landing pages</li>
-                <li ng-click="currentTab = 'createLandingPage'">Create landing page</li>
-                <li ng-click="currentTab = 'listDevelopers'">Manage developers</li>
-                <li ng-click="currentTab = 'createDeveloper'">Create developer</li>
-            </ul>
-        </navigation>
+    <body ng-app="lph">
+        <div class="sidebar">
+            <img src="assets/img/logo.png" alt="" class="logo" />
+
+            <span class="splitter">&middot; &middot; &middot;</span>
+
+            <nav>
+                <span ng-click="currentTab = 'listLandingPages'"><i class="fa fa-file-text-o"></i> Manage landing pages</span>
+                <span ng-click="currentTab = 'createLandingPage'"><i class="fa fa-plus-circle"></i> Create landing page</span>
+                <span ng-click="currentTab = 'listDevelopers'"><i class="fa fa-users"></i> Manage developers</span>
+                <span ng-click="currentTab = 'createDeveloper'"><i class="fa fa-user-plus"></i> Create developer</span>
+            </nav>
+        </div>
 
         <main>
             <section ng-if="currentTab === 'listLandingPages'" ng-controller="ListLandingPagesController">
@@ -51,7 +54,7 @@
                                 <p>
                                     <b>Staging</b><br />
                                     <a ng-href="{{ landingPage.stagingUrl }}" target="_blank">View live</a><br />
-                                    <a ng-click="viewFormSubmissions(landingPage, 'staging')">View form submissions<br />
+                                    <a ng-click="viewFormSubmissions(landingPage, 'staging')">View form submissions</a><br />
                                     <a ng-click="deploy(landingPage, 'staging')">Deploy to staging</a><br />
                                     <a ng-click="viewUserEvents(landingPage, 'staging')">View user events</a><br />
                                 </p>
