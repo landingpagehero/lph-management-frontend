@@ -19,6 +19,7 @@
                 <span ng-click="currentTab = 'createLandingPage'"><i class="fa fa-plus-circle"></i> Create landing page</span>
                 <span ng-click="currentTab = 'listDevelopers'"><i class="fa fa-users"></i> Manage developers</span>
                 <span ng-click="currentTab = 'createDeveloper'"><i class="fa fa-user-plus"></i> Create developer</span>
+                <a href="http://developers.lph.megathings.co.uk/"><i class="fa fa-question-circle"></i> Developer help</a>
             </nav>
         </div>
 
@@ -33,14 +34,17 @@
                         <tr>
                             <th>Name</th>
                             <th>Job number</th>
+                            <th>Description</th>
                             <th>Created</th>
                             <th>Actions</th>
+                            <th>Screenshot</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="landingPage in landingPages">
                             <td>{{ landingPage.name }}</td>
                             <td>{{ landingPage.jobNumber }}</td>
+                            <td ng-bind-html="landingPage.description | formatAsParagraph"></td>
                             <td>{{ landingPage.createdAt }}</td>
                             <td>
                                 <p>
@@ -66,6 +70,9 @@
                                     <a ng-click="viewAuditLog(landingPage)">View audit log</a><br />
                                     <a ng-click="viewCodeChangesLog(landingPage)">View code changes</a><br />
                                 </p>
+                            </td>
+                            <td>
+                                <img ng-if="landingPage.screenshot" ng-src="{{ landingPage.screenshot }}" width="400" />
                             </td>
                         </tr>
                     </tbody>
@@ -123,6 +130,12 @@
                     </p>
 
                     <p>
+                        Description:
+                        <br />
+                        <textarea ng-model="landingPage.description"></textarea>
+                    </p>
+
+                    <p>
                         <input type="submit" value="Save changes" />
                     </p>
                 </form>
@@ -175,6 +188,8 @@
                 <h2>Landing page form submissions: {{ landingPage.name }} on {{ currentEnvironment }}</h2>
 
                 <p>{{ submissions.length }} submissions.</p>
+
+                <p ng-if="submissions.length > 0"><a ng-click="downloadAsCsv()">Download as CSV</a></p>
 
                 <ul>
                     <li ng-repeat="submission in submissions">

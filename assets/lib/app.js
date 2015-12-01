@@ -1,5 +1,7 @@
-const API_BASE = window.location.protocol + '//api.' + window.location.hostname;
+'use strict';
 
+const API_BASE = window.location.protocol + '//api.' + window.location.hostname;
+const IS_DEV = window.location.hostname === 'lph.dev';
 const app = angular.module('lph', []);
 
 app.controller('CreateLandingPageController', function($scope, $rootScope, $http) {
@@ -19,6 +21,13 @@ app.controller('ListLandingPagesController', function($scope, $http, $rootScope)
             .then(function(response) {
                 $scope.count = response.data.count;
                 $scope.landingPages = response.data.landingPages;
+
+                if (!IS_DEV) {
+                    $scope.landingPages.forEach(function(landingPage) {
+                        $http.get('http://api.fileapi.net/v1/screenshot?key=lph&url=' + window.encodeURI(landingPage.stagingUrl))
+                            .then(response => landingPage.screenshot = response.data.result.screenshot);
+                    });
+                }
             })
             .catch(response => alert('Error! Could not load landing pages.'));
     }
@@ -90,6 +99,9 @@ app.controller('EditLandingPageController', function($scope, $http, $rootScope) 
     loadLandingPage();
 
     $scope.save = function(landingPage) {
+        $http.post(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId, $scope.landingPage)
+            .then(response => alert('Edited landing page.'))
+            .catch(response => alert('Error! Could not edit landing page.'));
     };
 });
 
@@ -137,11 +149,17 @@ app.controller('ViewLandingPageUserEventsController', function($scope, $http, $r
 
 });
 
-app.controller('ViewLandingPageFormSubmissionsController', function($scope, $http, $rootScope) {
+app.controller('ViewLandingPageFormSubmissionsController', function($scope, $http, $rootScope, $window) {
     function loadFormSubmissions() {
         $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/form-submissions/' + $rootScope.currentEnvironment)
             .then(response => $scope.submissions = response.data.submissions)
             .catch(response => alert('Error! Could not get landing page form submissions.'));
+    }
+
+    $scope.downloadAsCsv = function() {
+        $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId + '/form-submissions/' + $rootScope.currentEnvironment + '.csv')
+            .then(response => $window.location.href = response.data.downloadUrl)
+            .catch(response => alert('Error! Could not download as a CSV.'));
     }
 
     $http.get(API_BASE + '/management/landing-pages/' + $rootScope.currentLandingPageId)
@@ -191,5 +209,21 @@ app.controller('ListDevelopersController', function($scope, $http) {
 app.filter('join', function () {
     return function (input, delimiter) {
         return input.join(delimiter);
+    };
+});
+
+app.filter('formatAsParagraph', function ($sce) {
+    return function (input) {
+        let html;
+        if (input === null || input === undefined) {
+            html = "";
+        } else {
+            html = input.replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/\n/g, '<br />')
+                        ;
+        }
+
+        return $sce.trustAsHtml(html);
     };
 });

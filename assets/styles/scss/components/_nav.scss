@@ -1,18 +1,26 @@
+%links {
+    background: rgba(255,255,255,0.1);
+    color: #ffffff !important;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 6px;
+    width: 100%;
+    float: none;
+    margin-bottom: 6px;
+    display: inline-block;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        background: rgba(255,255,255,0.15);
+    }
+}
+
 nav {
     span {
-        background: rgba(255,255,255,0.1);
-        color: #ffffff;
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 6px;
-        width: 100%;
-        float: none;
-        margin-bottom: 6px;
-        display: inline-block;
-        transition: all .3s ease-in-out;
+        @extend %links;
+    }
 
-        &:hover {
-            background: rgba(255,255,255,0.15);
-        }
+    a {
+        @extend %links;
     }
 }
