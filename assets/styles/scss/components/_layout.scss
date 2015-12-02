@@ -1,0 +1,17 @@
+.sidebar {
+    float: left;
+    width: 240px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #191d28;
+    text-align: left;
+    padding: 10px;
+}
+
+main {
+    float: left;
+    padding: 40px 40px 40px 280px;
+    width: calc(100% - 240px);
+}
